@@ -1,1 +1,1 @@
-# 47GIIN---Proyecto-Consultorio
+# 47GIIN Proyecto Consultorio
