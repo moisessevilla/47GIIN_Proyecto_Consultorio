@@ -14,6 +14,12 @@ URL: https://github.com/moisessevilla/47GIIN_Proyecto_Consultorio
 
 Definición de la iteración #01 (07-01-2025)
 
-URL: https://www.youtube.com/watch?v=UB5t81CrauE
+URL: https://youtu.be/UB5t81CrauE
+
+***********************************************************
+
+Fin iteración #01 - Inicio iteración #02 (09-01-2025)
+
+URL: https://youtu.be/t45tf4bSV-4
 
 ***********************************************************
