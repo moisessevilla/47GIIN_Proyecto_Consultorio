@@ -1,31 +1,31 @@
 <template>
-  <div>
+  <div class="principal">
     <h1>Gestión de Pacientes</h1>
 
     <!-- Formulario para crear/editar pacientes -->
-    <form @submit.prevent="handleSubmit" class="formulario-pacientes">
+    <form @submit.prevent="handleSubmit" class="formulario">
       <div class="form-group">
-        <label for="dni">DNI:</label>
+        <label for="dni">DNI:*</label>
         <input id="dni" v-model="form.dni" type="text" maxlenght="9" @input="validateDNI" placeholder="Formato: 8 dígitos + 1 letra" required/>
       </div>
       <div class="form-group">
-        <label for="nombre">Nombre:</label>
+        <label for="nombre">Nombre:*</label>
         <input id="nombre" v-model="form.nombre" minlength="3" maxlenght="100" type="text" placeholder="Mínimo 3 carácteres" required />
       </div>
       <div class="form-group">
-        <label for="apellido">Apellido:</label>
+        <label for="apellido">Apellido:*</label>
         <input id="apellido" v-model="form.apellido" minlength="3" maxlenght="100" type="text" placeholder="Mínimo 3 carácteres" required />
       </div>
       <div class="form-group">
-        <label for="email">Email:</label>
+        <label for="email">Email:*</label>
         <input id="email" v-model="form.email" type="email" @input="validateEmail" placeHolder="Ingrese un email válido" required />
       </div>
       <div class="form-group">
-        <label for="telefono">Teléfono:</label>
-        <input id="telefono" v-model="form.telefono" type="text" maxlenght="9" @input="validateTelefono" placeholder="Ingrese un teléfono de 9 dígitos" />
+        <label for="telefono">Teléfono:*</label>
+        <input id="telefono" v-model="form.telefono" type="text" maxlenght="9" @input="validateTelefono" placeholder="Ingrese un teléfono de 9 dígitos" required/>
       </div>
       <div class="form-group">
-        <label for="contrasena">Contraseña:</label>
+        <label for="contrasena">Contraseña:*</label>
         <input
           id="contrasena" 
           v-model="form.contrasena" minlength="6" maxlenght="100" placeholder="Ingrese un contraseña 6 cáracteres o más" :type="showPassword ? 'text' : 'password'" :required="!form.id_paciente" />
@@ -33,6 +33,9 @@
       <div class="checkbox-inline">
         <input type="checkbox" v-model="showPassword" />
         <label for="mostrar_contrasena">Mostrar Contraseña</label>
+      </div>
+      <div class="info">
+        <label for="info">* Campos requeridos.</label>
       </div>
       <div class="form-buttons">
         <button type="submit">{{ form.id_paciente ? 'Actualizar' : 'Crear' }} Paciente</button>
@@ -50,38 +53,50 @@
         <option value="email">Email</option>
       </select>
       <input type="text" v-model="searchValue" class="busqueda-input" placeholder="Ingrese criterio de búsqueda" />
-    </div>    
+    </div>
 
     <!-- Tabla de pacientes con scroll limitado a 7 registros y ordenación -->
     <div class="tabla-container">
-      <table>
-        <thead>
-          <tr>
-            <th @click="sortTable('id_paciente')">ID</th>
-            <th @click="sortTable('dni')">DNI</th>
-            <th @click="sortTable('nombre')">Nombre</th>
-            <th @click="sortTable('apellido')">Apellido</th>
-            <th @click="sortTable('email')">Email</th>
-            <th @click="sortTable('telefono')">Teléfono</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="paciente in sortedPacientes" :key="paciente.id_paciente">
-            <td>{{ paciente.id_paciente }}</td>
-            <td>{{ paciente.dni }}</td>
-            <td>{{ paciente.nombre }}</td>
-            <td>{{ paciente.apellido }}</td>
-            <td>{{ paciente.email }}</td>
-            <td>{{ paciente.telefono }}</td>
-            <td>
-              <button @click="editPaciente(paciente)">Editar</button>
-              <button @click="deletePaciente(paciente.id_paciente)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <table>
+    <thead>
+      <tr>
+        <th @click="sortTable('id_paciente')">ID</th>
+        <th @click="sortTable('dni')">DNI</th>
+        <th @click="sortTable('nombre')">Nombre</th>
+        <th @click="sortTable('apellido')">Apellido</th>
+        <th @click="sortTable('email')">Email</th>
+        <th @click="sortTable('telefono')">Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="paciente in paginatedPacientes" :key="paciente.id_paciente">
+        <td>{{ paciente.id_paciente }}</td>
+        <td>{{ paciente.dni }}</td>
+        <td>{{ paciente.nombre }}</td>
+        <td>{{ paciente.apellido }}</td>
+        <td>{{ paciente.email }}</td>
+        <td>{{ paciente.telefono }}</td>
+        <td>
+          <button @click="editPaciente(paciente)">Editar</button>
+          <button @click="deletePaciente(paciente.id_paciente)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  <!-- Controles de paginación -->
+  <div class="pagination">
+    <button
+      v-for="page in totalPages"
+      :key="page"
+      @click="changePage(page)"
+      :class="{ active: currentPage === page }"
+    >
+      {{ page }}
+    </button>
+  </div>
+
   </div>
 </template>
 
@@ -92,6 +107,8 @@ export default {
   data() {
     return {
       pacientes: [],
+      currentPage: 1, // Página actual
+      itemsPerPage: 10, // Registros por página
       form: {
         id_paciente: null,
         dni: "",
@@ -125,9 +142,23 @@ export default {
         return this.sortAsc ? result : -result;
       });
     },
+    // Calcular el total de páginas
+    totalPages() {
+      return Math.ceil(this.pacientes.length / this.itemsPerPage);
+    },
+    // Obtener los pacientes de la página actual
+    paginatedPacientes() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.pacientes.slice(start, end);
+    },
   },
 
   methods: {
+    changePage(page) {
+      this.currentPage = page;
+    },
+
     // Validación de DNI (exactamente 8 dígitos seguidos de 1 letra)
     validateDNI(event) {
       const value = event.target.value.toUpperCase(); // Convierte a mayúsculas automáticamente
@@ -294,6 +325,15 @@ async handleSubmit() {
           });
           alert("Paciente eliminado con éxito.");
           this.fetchPacientes();
+          
+          //Módulo para refrescar páginas cuando se reducen de en una menos
+          await this.fetchPacientes(); // Vuelve a cargar los pacientes después de eliminar
+
+          // Si la página actual es mayor que el total de páginas, vuelve a la última página válida
+          if (this.currentPage > this.totalPages) {
+            this.currentPage = this.totalPages || 1; // Si no hay registros, vuelve a la página 1
+          }
+        
         } catch (error) {
           console.error("Error al eliminar el paciente:", error.response ? error.response.data : error.message);
           alert("Hubo un error al eliminar el paciente.");
@@ -319,110 +359,3 @@ async handleSubmit() {
   },
 };
 </script>
-
-<style>
-.formulario-pacientes {
-  max-width: 400px;
-  margin: 1%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.busqueda-container {
-  max-width: 600px;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-}
-
-.busqueda-select, .busqueda-input, .busqueda-boton {
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.busqueda-select {
-  flex: 1;
-}
-
-.busqueda-input {
-  flex: 2;
-}
-
-.busqueda-boton {
-  flex: 1;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.busqueda-boton:hover {
-  background-color: #0056b3;
-}
-
-.form-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.form-group label {
-  flex: 1;
-  margin-right: 10px;
-}
-
-.form-group input {
-  flex: 2;
-  padding: 5px;
-}
-
-.checkbox-inline {
-  margin-left: 135px;
-  background-color: #b2daf1;
-}
-
-.form-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.tabla-container {
-  max-height: 300px; /* Control de altura del contenedor */
-  max-width: 1200px; /* Control de anchura del contenedor */
-  overflow-y: auto; /* Scroll vertical si hay más de 7 registros */
-  border: 1px solid #ddd;
-  margin-top: 20px;
-  margin-left: 20px;
-  position: relative; /* Asegura que el contenedor reciba eventos de puntero */
-  z-index: 1;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-/* Encabezado */
-thead {
-  position: sticky; /* Fija la fila superior */
-  top: 0; /* Se adhiere a la parte superior del contenedor */
-  z-index: 1; /* Asegura que el encabezado esté por encima del cuerpo */
-  background-color: #f1f1f1; /* Fondo del encabezado */
-}
-
-table th, table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-  cursor: pointer;
-}
-
-table th {
-  background-color: #f4f4f4;
-}
-</style>
