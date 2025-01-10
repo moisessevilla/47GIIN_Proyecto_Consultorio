@@ -12,7 +12,7 @@ URL: https://github.com/moisessevilla/47GIIN_Proyecto_Consultorio
 
 ***********************************************************
 
-Definición de la iteración #01 (07-01-2025)
+Definición de la iteración #01 (08-01-2025)
 
 URL: https://youtu.be/UB5t81CrauE
 
