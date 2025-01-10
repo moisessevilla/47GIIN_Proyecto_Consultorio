@@ -24,7 +24,7 @@ URL: https://youtu.be/t45tf4bSV-4
 
 ***********************************************************
 
-Fin iteración #01 - Inicio iteración #02 (09-01-2025)
+Fin iteración #02 - Inicio iteración #03 (10-01-2025)
 
 URL: https://youtu.be/1oxLUdJFpKc
 
