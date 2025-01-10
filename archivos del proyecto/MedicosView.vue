@@ -124,15 +124,27 @@
       },
       // Calcular el total de páginas
       totalPages() {
-        return Math.ceil(this.medicos.length / this.itemsPerPage);
+        return Math.ceil(this.sortedMedicos.length / this.itemsPerPage);
       },
       // Obtener los médicos de la página actual
       paginatedMedicos() {
         const start = (this.currentPage - 1) * this.itemsPerPage;
         const end = start + this.itemsPerPage;
-        return this.medicos.slice(start, end);
+        return this.sortedMedicos.slice(start, end);
       },
     },
+
+    watch: {
+      // Detectar cambios en el valor de búsqueda
+      searchValue() {
+        this.currentPage = 1;  // Vuelve a la primera página al buscar
+      },
+      // Detectar cambios en el tipo de búsqueda
+      searchKey() {
+        this.currentPage = 1;  // Vuelve a la primera página al cambiar el filtro
+      }
+    },
+
     methods: {
     changePage(page) {
       this.currentPage = page;
