@@ -144,15 +144,26 @@ export default {
     },
     // Calcular el total de páginas
     totalPages() {
-      return Math.ceil(this.pacientes.length / this.itemsPerPage);
+      return Math.ceil(this.sortedPacientes.length / this.itemsPerPage);
     },
     // Obtener los pacientes de la página actual
     paginatedPacientes() {
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.pacientes.slice(start, end);
+      return this.sortedPacientes.slice(start, end);
     },
   },
+
+  watch: {
+  // Detectar cambios en el valor de búsqueda
+  searchValue() {
+    this.currentPage = 1;  // Vuelve a la primera página al buscar
+  },
+  // Detectar cambios en el tipo de búsqueda
+  searchKey() {
+    this.currentPage = 1;  // Vuelve a la primera página al cambiar el filtro
+  }
+},
 
   methods: {
     changePage(page) {
