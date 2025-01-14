@@ -21,4 +21,15 @@ CREATE TABLE Medico (
     email VARCHAR(100) UNIQUE NOT NULL      -- Email único
 );
 
-
+-- Crear la tabla Cita
+CREATE TABLE Cita (
+    id_cita SERIAL PRIMARY KEY,
+    id_paciente INT NOT NULL,
+    id_medico INT NOT NULL,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'confirmada',
+    refcita VARCHAR(12) UNIQUE NOT NULL,
+    FOREIGN KEY (id_paciente) REFERENCES Paciente(id_paciente) ON DELETE CASCADE,
+    FOREIGN KEY (id_medico) REFERENCES Medico(id_medico) ON DELETE CASCADE
+);
