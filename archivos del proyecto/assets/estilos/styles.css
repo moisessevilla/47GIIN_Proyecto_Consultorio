@@ -28,7 +28,15 @@ body {
   }
   
   .contenido {
-    margin-left: 20px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+
   }
   
   .formulario {
@@ -36,13 +44,25 @@ body {
     margin: 1%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    text-align: left;
   }
+
+  /* Alinear correctamente los checkboxes */
+.form-group input[type="checkbox"] {
+    margin-left: 0;
+    text-align: left;
+    transform: scale(1.4); /* Opcional: agranda el checkbox */
+    cursor: pointer;
+    margin-right: 200px;
+  }
+
   
   .busqueda-container {
-    max-width: 600px;
-    align-items: center;
-    gap: 10px;
+    max-width: 500px;
+    display: flex;        /* Permite alineación flexible */
+    align-items: center;  /* Alinea verticalmente */
+    justify-content: flex-start; /* Alinea a la izquierda */
+    gap: 10px;           /* Espacio entre elementos */
     margin-bottom: 20px;
     margin-left: 20px;
   }
@@ -77,9 +97,10 @@ body {
   }
   
   .form-group {
-    display: flex;
-    justify-content: space-between;
+    display:flex;
     align-items: center;
+    margin-bottom: 4px;
+    text-align: left;
   }
   
   .form-group label {
@@ -94,11 +115,13 @@ body {
   
   .info {
     margin-left: 135px;
+    text-align: left;
   }
   
   .checkbox-inline {
     margin-left: 135px;
     background-color: #b2daf1;
+    text-align: left;
   }
   
   .form-buttons {
@@ -113,20 +136,17 @@ body {
   }
 
   .tabla-container {
-    max-height: 222px; /* Control de altura del contenedor, incrementar en pasos de 37px */
-    max-width: 1200px; /* Control de anchura del contenedor */
+    max-height: 240px; /* Control de altura del contenedor, incrementar en pasos de 37px */
     overflow-y: auto; /* Scroll vertical si hay más de 5 registros */
     border: 1px solid #ddd;
-    margin-top: 20px;
-    margin-left: 20px;
     position: relative; /* Asegura que el contenedor reciba eventos de puntero */
     z-index: 1;
   }
   
   
   .pagination {
+    margin: 0 auto;
     margin-top: 10px;
-    margin-left: 600px;
     justify-content: center;
     gap: 5px;
   }
@@ -159,11 +179,102 @@ body {
   
   table th, table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 0px 8px;
     text-align: left;
+    font-size: 14px;
     cursor: pointer;
+    line-height: 1.2; /* Reduce el espaciado vertical */
+    
+  }
+
+  table td {
+    vertical-align: middle; /* Centra el contenido verticalmente */
   }
   
   table th {
     background-color: #f4f4f4;
+    font-weight: bold;
+    padding: 12px 8px; /* Aumenta el alto de la cabecera */
+  }
+
+  /* Estilo específico para la columna de acciones */
+.acciones {
+    display: flex;
+    justify-content: center;  /* Centra los botones horizontalmente */
+    align-items: center;      /* Centra los botones verticalmente */
+    gap: 10px;                 /* Espacio entre los botones */
+  }
+
+  /* Estilo para los botones */
+button {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    align-items: center;      /* Centra los botones verticalmente */
+    border-radius: 4px;
+    background-color: #e5ecf3;
+  }
+  
+  .contenido {
+    padding: 20px;
+  }
+  
+  .citas-contenedor {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .detalle-cita {
+    flex: 1;
+    border-right: 1px solid #ccc;
+    /* Línea divisoria vertical */
+    padding: 15px;
+  }
+  
+  .detalle-cita:last-child {
+    border-right: none;
+    /* Quita la línea del último bloque */
+  }
+  
+  .detalle-cita p {
+    display: flex;
+    margin: 5px 0;
+  }
+  
+  .detalle-cita strong {
+    min-width: 150px;
+    font-weight: bold;
+  }
+  
+  .detalle-cita span {
+    flex: 1;
+  }
+  
+  
+  
+  .contenido {
+    padding: 20px;
+  }
+  
+  .busqueda-form {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .detalle-cita {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .error,
+  .no-cita {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
   }

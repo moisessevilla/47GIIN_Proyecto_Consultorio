@@ -9,34 +9,42 @@ header {
       align-items: center; /* Alinea verticalmente la imagen y el texto */
       gap: 10px; /* Espaciado entre la imagen y el texto */
       justify-content: center; /* Centra el contenido horizontalmente */
+      margin-top: -50px;
     }
     
     .navegador {
-    background-color: #27a2c7;
-    padding: 10px;
+    background-color: #1a73e8; /* Color de fondo */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    gap: 20px; /* Espaciado horizontal */
+    padding: 10px; /* Espaciado vertical */
     }
     
     .header-imagen {
       width: 40px; /* Tamaño de la imagen */
       height: auto; /* Mantén las proporciones de la imagen */
+      pointer-events: none; /* Evita que interfiera con botones superpuestos */
+      z-index: 1; /* Envía la imagen al fondo */
     }
     
+    /*color: white; /* Color del texto */
+
     .header-title {
       font-size: 24px; /* Tamaño del texto */
       font-weight: bold; /* Negrita */
       color: white; /* Color del texto */
+      background-color: #1a73e8; /* Color del fondo ajustado para contraste */
       margin-bottom: 10px; /* Espaciado entre el título y la navegación */
       padding: 20px; /* Espaciado interno para que el texto no quede pegado al borde */
       background-size: cover; /* Ajusta la imagen para cubrir el área */
       background-position: center; /* Centra la imagen */
       background-repeat: no-repeat; /* Evita que la imagen se repita */
-      border-radius: 5px; /* Bordes redondeados (opcional) */
+      border-radius: 5px; /* Bordes redondeados  */
     }
     
     .header-logo {
       position: absolute; /* Posiciona la imagen detrás del texto */
       pointer-events: none; /* Evita que interfiera con botones superpuestos */
-      top: 50%;
+      top: 55%;
       left: 50%;
       transform: translate(-50%, -50%); /* Centra la imagen */
       z-index: 0; /* Envía la imagen al fondo */
@@ -58,3 +66,80 @@ header {
     nav a:hover {
     text-decoration: underline;
     }
+
+    .welcome-header {
+        position: absolute;
+        top: 5cm;
+        width: 100%;
+        text-align: center;
+      }
+      
+      .welcome-header h1 {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2c3e50;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      
+      .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #dbe7e9;
+      }
+      
+      .login-card {
+        background-color: #ffffff;
+        margin-top: -200px;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        opacity: 85%;
+      }
+      
+      .input-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+      
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+      
+      .input-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      
+      .button-container {
+        display: flex;
+        justify-content: center;
+      }
+      
+      .btn-submit {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      .btn-submit:hover {
+        background-color: #0056b3;
+      }
+      
+      .error-message {
+        color: #e74c3c;
+        margin-top: 10px;
+      }
