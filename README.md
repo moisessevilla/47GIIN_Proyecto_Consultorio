@@ -47,3 +47,9 @@ Fin iteración #05 - Inicio iteración #06 (20-01-2025)
 URL: https://youtu.be/daNdXw4VAx4
 
 ***********************************************************
+
+Fin iteración #06 y cierre del proyecto (22-01-2025)
+
+URL: https://youtu.be/7NlFm7i209o
+
+***********************************************************
