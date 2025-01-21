@@ -99,145 +99,49 @@ CREATE TABLE usuarios (
 );
 
 
-
-
-
-
---********* Se han aplicado de aquí hacía arriba **********
-
---**** Temporal, de aquí hacía abajo no se han usado ******
-
-
-
-
-
-
-
--- Tabla de Usuarios
-CREATE TABLE usuarios (
-    id_usuario SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    contrasena VARCHAR(255) NOT NULL, -- Contraseña encriptada
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    activo BOOLEAN DEFAULT TRUE -- Indica si el usuario está activo
-);
-
--- Tabla de Roles
-CREATE TABLE roles (
-    id_rol SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE, -- Ejemplo: Admin, Médico, Recepcionista
-    descripcion TEXT
-);
-
--- Tabla de Permisos
-CREATE TABLE permisos (
-    id_permiso SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE, -- Ejemplo: Crear, Editar, Eliminar
-    descripcion TEXT
-);
-
--- Relación entre Usuarios y Roles
-CREATE TABLE usuario_roles (
-    id_usuario INT NOT NULL,
-    id_rol INT NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
-    FOREIGN KEY (id_rol) REFERENCES roles(id_rol) ON DELETE CASCADE,
-    PRIMARY KEY (id_usuario, id_rol)
-);
-
--- Relación entre Roles y Permisos
-CREATE TABLE rol_permisos (
-    id_rol INT NOT NULL,
-    id_permiso INT NOT NULL,
-    FOREIGN KEY (id_rol) REFERENCES roles(id_rol) ON DELETE CASCADE,
-    FOREIGN KEY (id_permiso) REFERENCES permisos(id_permiso) ON DELETE CASCADE,
-    PRIMARY KEY (id_rol, id_permiso)
-);
-
--- Tabla de Usuarios
-CREATE TABLE usuarios (
-    id_usuario SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    telefono VARCHAR(15),
-    contrasena VARCHAR(255) NOT NULL,
-    rol_id INT NOT NULL,
-    FOREIGN KEY (rol_id) REFERENCES roles(id_rol)
-);
-
--- Tabla de Roles
-CREATE TABLE roles (
-    id_rol SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL UNIQUE,
-    descripcion TEXT
-);
-
--- Tabla de Facturas
-CREATE TABLE facturas (
-    id_factura SERIAL PRIMARY KEY,
-    id_cita INT NOT NULL,
-    fecha_emision DATE NOT NULL,
-    monto NUMERIC(10, 2) NOT NULL,
-    estado VARCHAR(20) DEFAULT 'Pendiente',
-    FOREIGN KEY (id_cita) REFERENCES citas(id_cita)
-);
-
 -- Tabla de Proveedores de Material Médico
 CREATE TABLE proveedores_material_medico (
     id_proveedor SERIAL PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
+    razon_social VARCHAR(150),
     direccion TEXT,
     telefono VARCHAR(15),
-    email VARCHAR(100)
+    email VARCHAR(100),
+    persona_contacto VARCHAR(100),
+    puesto_contacto VARCHAR(100),
+    horario_atencion VARCHAR(50),
+    metodo_pago VARCHAR(50),
+    moneda VARCHAR(10),
+    plazo_pago INT,
+    categorias_producto TEXT,
+    tiempo_entrega INT,
+    zona_cobertura TEXT,
+    calidad_proveedor VARCHAR(10),
+    fecha_alta DATE DEFAULT CURRENT_DATE,
+    estado VARCHAR(20) DEFAULT 'Activo',
+    notas TEXT
 );
+
 
 -- Tabla de Proveedores de Laboratorio
 CREATE TABLE proveedores_laboratorio (
     id_proveedor SERIAL PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
+    razon_social VARCHAR(150),
     direccion TEXT,
     telefono VARCHAR(15),
-    email VARCHAR(100)
+    email VARCHAR(100),
+    persona_contacto VARCHAR(100),
+    puesto_contacto VARCHAR(100),
+    horario_atencion VARCHAR(50),
+    metodo_pago VARCHAR(50),
+    moneda VARCHAR(10),
+    plazo_pago INT,
+    categorias_producto TEXT,
+    tiempo_entrega INT,
+    zona_cobertura TEXT,
+    calidad_proveedor VARCHAR(10),
+    fecha_alta DATE DEFAULT CURRENT_DATE,
+    estado VARCHAR(20) DEFAULT 'Activo',
+    notas TEXT
 );
-
--- Tabla de Derivaciones a Especialistas
-CREATE TABLE derivaciones (
-    id_derivacion SERIAL PRIMARY KEY,
-    id_paciente INT NOT NULL,
-    id_medico_remitente INT NOT NULL,
-    id_medico_destino INT NOT NULL,
-    motivo TEXT NOT NULL,
-    fecha DATE NOT NULL,
-    FOREIGN KEY (id_paciente) REFERENCES pacientes(id_paciente),
-    FOREIGN KEY (id_medico_remitente) REFERENCES medicos(id_medico),
-    FOREIGN KEY (id_medico_destino) REFERENCES medicos(id_medico)
-);
-
--- Tabla de Tratamientos
-CREATE TABLE tratamientos (
-    id_tratamiento SERIAL PRIMARY KEY,
-    id_paciente INT NOT NULL,
-    id_medico INT NOT NULL,
-    descripcion TEXT NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE,
-    FOREIGN KEY (id_paciente) REFERENCES pacientes(id_paciente),
-    FOREIGN KEY (id_medico) REFERENCES medicos(id_medico)
-);
-
--- Tabla de Historia Clínica
-CREATE TABLE historia_clinica (
-    id_historia SERIAL PRIMARY KEY,
-    id_paciente INT NOT NULL,
-    descripcion TEXT NOT NULL,
-    fecha DATE NOT NULL,
-    FOREIGN KEY (id_paciente) REFERENCES pacientes(id_paciente)
-);
-
--- Ajustes adicionales a tablas existentes
-ALTER TABLE citas
-ADD COLUMN ref_factura INT,
-ADD FOREIGN KEY (ref_factura) REFERENCES facturas(id_factura);
