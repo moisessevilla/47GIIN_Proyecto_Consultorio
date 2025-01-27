@@ -53,3 +53,9 @@ Fin iteración #06 y cierre del proyecto (22-01-2025)
 URL: https://youtu.be/7NlFm7i209o
 
 ***********************************************************
+
+Entrega del proyecto Final (27-01-2025)
+
+URL: https://youtu.be/31G38rfDNOM
+
+***********************************************************
