@@ -187,33 +187,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.contenido {
-  padding: 20px;
-}
-
-.graficos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.tabla-container table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.tabla-container th,
-.tabla-container td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-}
-
-.tabla-container th {
-  background-color: #f9f9f9;
-}
-</style>

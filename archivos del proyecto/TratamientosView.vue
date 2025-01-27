@@ -7,6 +7,7 @@
       <div class="form-group">
         <label for="id_paciente">Paciente:</label>
         <select id="id_paciente" v-model="form.id_paciente" required>
+          <option value="" disabled>Seleccione un paciente</option>
           <option v-for="paciente in pacientes" :key="paciente.id_paciente" :value="paciente.id_paciente">
             {{ paciente.nombre }} {{ paciente.apellido }}
           </option>
@@ -16,6 +17,7 @@
       <div class="form-group">
         <label for="id_medico">Médico:</label>
         <select id="id_medico" v-model="form.id_medico" required>
+          <option value="" disabled>Seleccione un Médico</option>
           <option v-for="medico in medicos" :key="medico.id_medico" :value="medico.id_medico">
             {{ medico.nombre }} ({{ medico.especialidad }})
           </option>
@@ -222,58 +224,3 @@ export default {
   },
 };
 </script>
-
-<style>
-textarea#descripcion {
-  width: 66%;
-  /* Igual de ancho que los demás campos */
-  height: 4em;
-  /* El doble de altura (puedes ajustar el valor según prefieras) */
-  padding: 5px;
-  /* Asegura que el texto tenga espacio interno */
-  border: 1px solid #ccc;
-  /* Estilo consistente */
-  border-radius: 4px;
-  /* Opcional: esquinas redondeadas */
-  resize: vertical;
-  /* Opcional: desactiva el redimensionamiento manual */
-  box-sizing: border-box;
-  /* Considera el padding en el ancho total */
-}
-
-.contenido {
-  padding: 20px;
-}
-
-.formulario {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-buttons button {
-  margin-right: 10px;
-}
-
-.tabla-container {
-  margin-top: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-</style>

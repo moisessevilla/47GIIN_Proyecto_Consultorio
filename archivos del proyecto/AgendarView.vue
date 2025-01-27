@@ -35,14 +35,14 @@
         <label for="hora">Hora:*</label>
         <input id="hora" v-model="form.hora" type="time" required />
       </div>
-      <!-- Estado de la cita -->
-      <div class="form-group2">
+      <!-- ✅ Estado de la cita -->
+      <div class="form-group">
         <label for="estado">Confirmar Cita:</label>
-        <input type="checkbox" id="estado" v-model="form.estado" style="margin-left: 28px;" />
+        <input type="checkbox" id="estado" v-model="form.estado" />
       </div>
-      <div class="form-group2">
+      <div class="form-group">
         <label for="cita_auto">Cita automática:</label>
-        <input type="checkbox" id="cita_auto" v-model="form.cita_auto" style="margin-left: 28px;" />
+        <input type="checkbox" id="cita_auto" v-model="form.cita_auto" />
       </div>
       <div class="form-group3">
         <label for="refcita">Referencia Cita:</label>
@@ -59,7 +59,8 @@
 
     <!-- Campo de búsqueda -->
     <div class="busqueda-container">
-      <select v-model="searchKey" class="busqueda-select">
+      <label for="searchKey" class="busqueda-label">Filtro:</label>
+      <select id="searchKey" v-model="searchKey" class="busqueda-select">
         <option value="id_cita">ID Cita</option>
         <option value="refcita">Ref. Cita</option>
         <option value="paciente">Paciente</option>
@@ -104,7 +105,6 @@
         </tbody>
       </table>
     </div>
-
     <!-- Controles de paginación -->
     <div class="pagination">
       <button v-for="page in totalPages" :key="page" @click="changePage(page)"
@@ -114,10 +114,12 @@
     </div>
   </div>
 </template>
+
 <script>
 
 import axios from "axios";
 import moment from 'moment';
+
 
 export default {
   data() {
@@ -127,7 +129,7 @@ export default {
       medicos: [],
       currentPage: 1, // Página actual
       itemsPerPage: 10, // Registros por página
-      isEditing: false,  // Bandera para saber si estamos editando
+      isEditing: false,  // 🔔 Bandera para saber si estamos editando
       form: {
         id_cita: null,
         id_paciente: "",
@@ -152,12 +154,12 @@ export default {
     this.fetchCitas();
   },
 
+
   watch: {
     // Detectar cambios en el valor de búsqueda
     searchValue() {
       this.currentPage = 1;  // Vuelve a la primera página al buscar
     },
-
     // Detectar cambios en el tipo de búsqueda
     searchKey() {
       this.currentPage = 1;  // Vuelve a la primera página al cambiar el filtro
@@ -207,6 +209,8 @@ export default {
       const end = start + this.itemsPerPage;
       return this.sortedCitas.slice(start, end);
     },
+
+
   },
 
 
@@ -221,7 +225,7 @@ export default {
       return moment(fecha, ["YYYY-MM-DD", "DD-MM-YYYY"]).format("DD-MM-YYYY");
     },
 
-    // Formatea la fecha a 'YYYY-MM-DD' antes de enviarla
+    // ✅ Formatea la fecha a 'YYYY-MM-DD' antes de enviarla
     formatearFecha() {
       if (this.fecha) {
         const fechaSeleccionada = new Date(this.fecha);
@@ -243,7 +247,6 @@ export default {
     searchCitas() {
       this.fetchCitas();
     },
-
     sortTable(key) {
       if (this.sortKey === key) {
         this.sortAsc = !this.sortAsc;
@@ -252,7 +255,6 @@ export default {
         this.sortAsc = true;
       }
     },
-
     /*
     async fetchCitas() {
       try {
@@ -280,6 +282,7 @@ export default {
 
       return paciente ? `${paciente.nombre} ${paciente.apellido}` : "Paciente no encontrado";
     },
+
 
 
     getMedicoEspecialidad(id_medico) {
@@ -403,9 +406,9 @@ export default {
 
         // 📋 Mostrar los datos antes de enviar
         //🆔 Cita ID: ${formData.id_cita}
+        //📑 Referencia Cita: ${formData.refcita}
         const datosParaEnviar = `
       📋 **Datos que se enviarán al backend:**
-      📑 Referencia Cita: ${formData.refcita}
       🧑‍🦱 Paciente ID: ${formData.id_paciente_id}
       🩺 Médico ID: ${formData.id_medico_id}
       🏥 Especialidad: ${formData.especialidad}
@@ -479,6 +482,7 @@ export default {
 
       return true;
     },
+
 
     getEspecialidad(id_medico) {
       const medicoSeleccionado = this.medicos.find(medico => medico.id_medico === id_medico);

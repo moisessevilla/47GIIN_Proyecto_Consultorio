@@ -9,6 +9,7 @@
         <div class="form-group">
           <label for="id_paciente">Paciente:</label>
           <select v-model="form.id_paciente" id="id_paciente" required>
+            <option value="" disabled>Seleccione un paciente</option>
             <option v-for="paciente in pacientes" :key="paciente.id_paciente" :value="paciente.id_paciente">
               {{ paciente.nombre }} {{ paciente.apellido }}
             </option>
@@ -17,6 +18,7 @@
         <div class="form-group">
           <label for="id_medico_remitente">Médico Remitente:</label>
           <select v-model="form.id_medico_remitente" id="id_medico_remitente" required>
+            <option value="" disabled>Seleccione el Médico Remitente</option>
             <option v-for="medico in medicos" :key="medico.id_medico" :value="medico.id_medico">
               {{ medico.nombre }} ({{ medico.especialidad }})
             </option>
@@ -25,6 +27,7 @@
         <div class="form-group">
           <label for="id_medico_destino">Médico Destino:</label>
           <select v-model="form.id_medico_destino" id="id_medico_destino" required>
+            <option value="" disabled>Seleccione el Médico Destino</option>
             <option v-for="medico in medicos" :key="medico.id_medico" :value="medico.id_medico">
               {{ medico.nombre }} ({{ medico.especialidad }})
             </option>
@@ -199,60 +202,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.contenido {
-  padding: 20px;
-}
-
-.formulario {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-textarea {
-  width: 100%;
-  height: 100px;
-}
-
-textarea#motivo {
-  width: 66%;
-  /* Igual de ancho que los demás campos */
-
-  height: 5em;
-  /* El doble de altura (puedes ajustar el valor según prefieras) */
-  padding: 5px;
-  /* Asegura que el texto tenga espacio interno */
-  border: 1px solid #ccc;
-  /* Estilo consistente */
-  border-radius: 4px;
-  /* Opcional: esquinas redondeadas */
-  resize: vertical;
-  /* Opcional: desactiva el redimensionamiento manual */
-  box-sizing: border-box;
-  /* Considera el padding en el ancho total */
-}
-
-.tabla-container {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-</style>

@@ -1,39 +1,46 @@
 <template>
-  <div class="principal">
+  <div class="contenido">
     <h1>Gestión de Pacientes</h1>
 
     <!-- Formulario para crear/editar pacientes -->
     <form @submit.prevent="handleSubmit" class="formulario">
       <div class="form-group">
         <label for="dni">DNI:*</label>
-        <input id="dni" v-model="form.dni" type="text" maxlenght="9" @input="validateDNI" placeholder="Formato: 8 dígitos + 1 letra" required/>
+        <input id="dni" v-model="form.dni" type="text" maxlenght="9" @input="validateDNI"
+          placeholder="Formato: 8 dígitos + 1 letra" required />
       </div>
       <div class="form-group">
         <label for="nombre">Nombre:*</label>
-        <input id="nombre" v-model="form.nombre" minlength="3" maxlenght="100" type="text" placeholder="Mínimo 3 carácteres" required />
+        <input id="nombre" v-model="form.nombre" minlength="3" maxlenght="100" type="text"
+          placeholder="Mínimo 3 carácteres" required />
       </div>
       <div class="form-group">
         <label for="apellido">Apellido:*</label>
-        <input id="apellido" v-model="form.apellido" minlength="3" maxlenght="100" type="text" placeholder="Mínimo 3 carácteres" required />
+        <input id="apellido" v-model="form.apellido" minlength="3" maxlenght="100" type="text"
+          placeholder="Mínimo 3 carácteres" required />
       </div>
       <div class="form-group">
         <label for="email">Email:*</label>
-        <input id="email" v-model="form.email" type="email" @input="validateEmail" placeHolder="Ingrese un email válido" required />
+        <input id="email" v-model="form.email" type="email" @input="validateEmail" placeHolder="Ingrese un email válido"
+          required />
       </div>
       <div class="form-group">
         <label for="telefono">Teléfono:*</label>
-        <input id="telefono" v-model="form.telefono" type="text" maxlenght="9" @input="validateTelefono" placeholder="Ingrese un teléfono de 9 dígitos" required/>
+        <input id="telefono" v-model="form.telefono" type="text" maxlenght="9" @input="validateTelefono"
+          placeholder="Ingrese un teléfono de 9 dígitos" required />
       </div>
       <div class="form-group">
         <label for="contrasena">Contraseña:*</label>
-        <input
-          id="contrasena" 
-          v-model="form.contrasena" minlength="6" maxlenght="100" placeholder="Ingrese un contraseña 6 cáracteres o más" :type="showPassword ? 'text' : 'password'" :required="!form.id_paciente" />
+        <input id="contrasena" v-model="form.contrasena" minlength="6" maxlenght="100"
+          placeholder="Ingrese un contraseña 6 cáracteres o más" :type="showPassword ? 'text' : 'password'"
+          :required="!form.id_paciente" />
       </div>
+
       <div class="checkbox-inline">
         <input type="checkbox" v-model="showPassword" />
-        <label for="mostrar_contrasena">Mostrar Contraseña</label>
+        <label for="mostrar_contrasena"> Mostrar Contraseña</label>
       </div>
+
       <div class="info">
         <label for="info">* Campos requeridos.</label>
       </div>
@@ -45,57 +52,55 @@
 
     <!-- Campo de búsqueda -->
     <div class="busqueda-container">
-      <select v-model="searchKey" class="busqueda-select">
+      <label for="searchKey" class="busqueda-label">Filtro:</label>
+      <select id="searchKey" v-model="searchKey" class="busqueda-select">
         <option value="id_paciente">ID</option>
         <option value="dni">DNI</option>
         <option value="nombre">Nombre</option>
         <option value="apellido">Apellido</option>
         <option value="email">Email</option>
+        <option value="telefono">Teléfono</option>
       </select>
       <input type="text" v-model="searchValue" class="busqueda-input" placeholder="Ingrese criterio de búsqueda" />
     </div>
 
     <!-- Tabla de pacientes con scroll limitado a 7 registros y ordenación -->
     <div class="tabla-container">
-  <table>
-    <thead>
-      <tr>
-        <th @click="sortTable('id_paciente')">ID</th>
-        <th @click="sortTable('dni')">DNI</th>
-        <th @click="sortTable('nombre')">Nombre</th>
-        <th @click="sortTable('apellido')">Apellido</th>
-        <th @click="sortTable('email')">Email</th>
-        <th @click="sortTable('telefono')">Teléfono</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="paciente in paginatedPacientes" :key="paciente.id_paciente">
-        <td>{{ paciente.id_paciente }}</td>
-        <td>{{ paciente.dni }}</td>
-        <td>{{ paciente.nombre }}</td>
-        <td>{{ paciente.apellido }}</td>
-        <td>{{ paciente.email }}</td>
-        <td>{{ paciente.telefono }}</td>
-        <td>
-          <button @click="editPaciente(paciente)">Editar</button>
-          <button @click="deletePaciente(paciente.id_paciente)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-  <!-- Controles de paginación -->
-  <div class="pagination">
-    <button
-      v-for="page in totalPages"
-      :key="page"
-      @click="changePage(page)"
-      :class="{ active: currentPage === page }"
-    >
-      {{ page }}
-    </button>
-  </div>
+      <table>
+        <thead>
+          <tr>
+            <th @click="sortTable('id_paciente')">ID</th>
+            <th @click="sortTable('dni')">DNI</th>
+            <th @click="sortTable('nombre')">Nombre</th>
+            <th @click="sortTable('apellido')">Apellido</th>
+            <th @click="sortTable('email')">Email</th>
+            <th @click="sortTable('telefono')">Teléfono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="paciente in paginatedPacientes" :key="paciente.id_paciente">
+            <td>{{ paciente.id_paciente }}</td>
+            <td>{{ paciente.dni }}</td>
+            <td>{{ paciente.nombre }}</td>
+            <td>{{ paciente.apellido }}</td>
+            <td>{{ paciente.email }}</td>
+            <td>{{ paciente.telefono }}</td>
+            <td class="acciones">
+              <button @click="editPaciente(paciente)">Editar</button>
+              <button @click="deletePaciente(paciente.id_paciente)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Controles de paginación -->
+    <div class="pagination">
+      <button v-for="page in totalPages" :key="page" @click="changePage(page)"
+        :class="{ active: currentPage === page }">
+        {{ page }}
+      </button>
+    </div>
 
   </div>
 </template>
@@ -155,15 +160,15 @@ export default {
   },
 
   watch: {
-  // Detectar cambios en el valor de búsqueda
-  searchValue() {
-    this.currentPage = 1;  // Vuelve a la primera página al buscar
+    // Detectar cambios en el valor de búsqueda
+    searchValue() {
+      this.currentPage = 1;  // Vuelve a la primera página al buscar
+    },
+    // Detectar cambios en el tipo de búsqueda
+    searchKey() {
+      this.currentPage = 1;  // Vuelve a la primera página al cambiar el filtro
+    }
   },
-  // Detectar cambios en el tipo de búsqueda
-  searchKey() {
-    this.currentPage = 1;  // Vuelve a la primera página al cambiar el filtro
-  }
-},
 
   methods: {
     changePage(page) {
@@ -267,58 +272,68 @@ export default {
     // Obtener la lista de pacientes
     async fetchPacientes() {
       try {
-        const response = await axios.get("/citas/paciente/");
+        const response = await axios.get("/paciente/");
         this.pacientes = response.data;
       } catch (error) {
         console.error("Error al obtener pacientes:", error);
       }
     },
 
-// Crear o actualizar un paciente
-async handleSubmit() {
-  try {
-    if (this.form.id_paciente) {
-      // Actualizar paciente
-      const updateData = {
-        dni: this.form.dni,
-        nombre: this.form.nombre,
-        apellido: this.form.apellido,
-        email: this.form.email,
-        telefono: this.form.telefono || null,
-        contrasena: this.form.contrasena || undefined,
-      };
+    // Crear o actualizar un paciente
+    async handleSubmit() {
+      try {
+        if (this.form.id_paciente) {
+          // Actualizar paciente
+          const updateData = {
+            dni: this.form.dni,
+            nombre: this.form.nombre,
+            apellido: this.form.apellido,
+            email: this.form.email,
+            telefono: this.form.telefono || null,
+            contrasena: this.form.contrasena || undefined,
+          };
 
-      await axios.put(`/citas/paciente/${this.form.id_paciente}/`, updateData);
-      alert("Paciente actualizado con éxito.");
-    } else {
-      // Crear paciente
-      const createData = {
-        dni: this.form.dni,
-        nombre: this.form.nombre,
-        apellido: this.form.apellido,
-        email: this.form.email,
-        telefono: this.form.telefono || null,
-        contrasena: this.form.contrasena,
-      };
+          await axios.put(`/paciente/${this.form.id_paciente}/`, updateData);
+          alert("Paciente actualizado con éxito.");
+        } else {
+          // Crear paciente
+          const createData = {
+            dni: this.form.dni,
+            nombre: this.form.nombre,
+            apellido: this.form.apellido,
+            email: this.form.email,
+            telefono: this.form.telefono || null,
+            contrasena: this.form.contrasena,
+          };
 
-      const response = await axios.post("/citas/paciente/", createData);
-      alert(`Paciente creado con éxito. ID asignado: ${response.data.id_paciente}`);
-    }
-    this.fetchPacientes();
-    this.resetForm();
-  } catch (error) {
-    console.error("Error al guardar el paciente:", error.response?.data || error.message);
+          const response = await axios.post("/paciente/", createData);
+          alert(`Paciente creado con éxito. ID asignado: ${response.data.id_paciente}`);
+        }
+        this.fetchPacientes();
+        this.resetForm();
+      } catch (error) {
+        console.error("Error al guardar el paciente:", error.response?.data || error.message);
 
-    // Convertir el error en un formato legible para el usuario
-    const errorDetails = error.response?.data
-      ? Object.entries(error.response.data)
-          .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
-          .join('\n')
-      : error.message;
+        // Validar si la respuesta es de tipo JSON
+        if (error.response && error.response.headers['content-type'].includes('application/json')) {
+          const errores = error.response.data;
 
-    alert(`Error al guardar el paciente:\n${errorDetails}`);
-  }
-},
+          // Manejar múltiples errores
+          const mensajeError = Object.entries(errores)
+            .map(([campo, mensajes]) => `${campo}: ${Array.isArray(mensajes) ? mensajes.join(', ') : mensajes}`)
+            .join('\n');
+
+          alert(`Error al guardar el paciente:\n${mensajeError}`);
+
+        } else if (typeof error.response?.data === 'string') {
+          // Si la respuesta es texto o HTML
+          alert(`Error inesperado:\n${error.response.data}`);
+
+        } else {
+          alert("Hubo un error al guardar el paciente.");
+        }
+      }
+    },
 
     // Cargar datos del paciente en el formulario para editar
     editPaciente(paciente) {
@@ -329,14 +344,14 @@ async handleSubmit() {
     async deletePaciente(id_paciente) {
       if (confirm("¿Estás seguro de eliminar este paciente?")) {
         try {
-          await axios.delete(`/citas/paciente/${id_paciente}/`, {
+          await axios.delete(`/paciente/${id_paciente}/`, {
             headers: {
               'Content-Type': 'application/json',
             },
           });
           alert("Paciente eliminado con éxito.");
           this.fetchPacientes();
-          
+
           //Módulo para refrescar páginas cuando se reducen de en una menos
           await this.fetchPacientes(); // Vuelve a cargar los pacientes después de eliminar
 
@@ -344,11 +359,24 @@ async handleSubmit() {
           if (this.currentPage > this.totalPages) {
             this.currentPage = this.totalPages || 1; // Si no hay registros, vuelve a la página 1
           }
-        
+
         } catch (error) {
-          console.error("Error al eliminar el paciente:", error.response ? error.response.data : error.message);
-          alert("Hubo un error al eliminar el paciente.");
+          console.error("Error al guardar el paciente:", error.response?.data || error.message);
+
+          if (error.response?.data) {
+            const errores = error.response.data;
+
+            // Manejar múltiples errores y mostrarlos claramente
+            const mensajeError = Object.entries(errores)
+              .map(([campo, mensajes]) => `${campo}: ${Array.isArray(mensajes) ? mensajes.join(', ') : mensajes}`)
+              .join('\n');
+
+            alert(`Error al guardar el paciente:\n${mensajeError}`);
+          } else {
+            alert("Hubo un error al guardar el paciente.");
+          }
         }
+
       }
     },
 
