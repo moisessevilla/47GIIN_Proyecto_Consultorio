@@ -90,10 +90,9 @@ CREATE TABLE usuarios (
     id_usuario SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
-    contrasena VARCHAR(255) NOT NULL, -- Contraseña encriptada
-    fecha_creacion DATE,
+    contrasena VARCHAR(255) NOT NULL, 
     fecha_actualizacion DATE,
-    activo BOOLEAN DEFAULT TRUE, -- Indica si el usuario está activo
+    activo BOOLEAN DEFAULT TRUE,
     rol VARCHAR(100) NOT NULL,
     permisos VARCHAR(100) NOT NULL,
 );
